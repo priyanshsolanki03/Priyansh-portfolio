@@ -5,6 +5,20 @@ import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import resume from "./assets/Priyansh resume.pdf";
 function App() {
+          const [menuOpen, setMenuOpen] = useState(false);
+
+ const [isMobile, setIsMobile] = useState(isMobile);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(isMobile);
+  };
+
+  window.addEventListener("resize", handleResize);
+
+  return () =>
+    window.removeEventListener("resize", handleResize);
+}, []);
   const [active, setActive] = useState("home");
 useEffect(() => {
   AOS.init({
@@ -87,8 +101,9 @@ useEffect(() => {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "22px 70px",
     gap: "28px",
+    flexWrap: "nowrap",
+    padding: isMobile ? "18px 20px" : "22px 70px",
     background: "rgba(0,0,0,0.25)",
     backdropFilter: "blur(10px)",
     zIndex: "1000",
@@ -105,14 +120,51 @@ useEffect(() => {
   >
     Priyansh.
   </h2>
+  {isMobile && (
+  <div
+    onClick={() => setMenuOpen(!menuOpen)}
+    style={{
+      color: "white",
+      fontSize: "28px",
+      cursor: "pointer",
+    }}
+  >
+    ☰
+  </div>
+)}
 
   <div
     style={{
-      display: "flex",
-      gap: "35px",
+      display:
+  isMobile
+    ? (menuOpen ? "flex" : "none")
+    : "flex",
+      gap: isMobile ? "18px" : "35px",
       color: "white",
-      fontSize: "18px",
+      fontSize: isMobile ? "12px" : "18px",
       cursor: "pointer",
+      flexWrap: "wrap",
+      flexDirection:
+  isMobile ? "column" : "row",
+
+position:
+  isMobile ? "absolute" : "static",
+
+top:
+  isMobile ? "80px" : "0",
+
+right:
+  isMobile ? "20px" : "0",
+
+background:
+  isMobile ? "rgba(0,0,0,0.95)" : "transparent",
+
+padding:
+  isMobile ? "20px" : "0",
+
+borderRadius:
+  isMobile ? "12px" : "0",
+      justifyContent: "center",
     }}
   >
     <span
@@ -163,7 +215,9 @@ useEffect(() => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          padding: "140px 4%",
+          padding: isMobile
+  ? "170px 6% 80px"
+  : "140px 4%",
           width: "100%",
           boxSizing: "border-box",
         }}
@@ -177,7 +231,7 @@ useEffect(() => {
             width: "100%",
             maxWidth: "1400px",
             gap: "20px",
-            flexWrap: "nowrap",
+            flexWrap: "wrap",
             rowGap: "60px",
           }}
         >
@@ -190,12 +244,13 @@ useEffect(() => {
               >
             <h1
               style={{
-                fontSize: "78px",
+               fontSize: isMobile ? "36px" : "78px",
                 fontWeight: "bold",
                 letterSpacing: "2px",
                 color: "white",
                 marginBottom: "20px",
-                lineHeight: "1.1",
+                lineHeight: isMobile ? "1.25" : "1.1",
+                wordBreak: "break-word",
               }}
             >
               Priyansh Solanki
@@ -214,7 +269,7 @@ useEffect(() => {
   speed={50}
   repeat={Infinity}
   style={{
-    fontSize: "28px",
+    fontSize: isMobile ? "22px" : "28px",
     color: "#94a3b8",
     display: "inline-block",
     marginBottom: "35px",
@@ -224,7 +279,7 @@ useEffect(() => {
             <p
   style={{
     color: "#cbd5e1",
-    fontSize: "18px",
+    fontSize: isMobile ? "16px" : "18px",
     lineHeight: "1.8",
     maxWidth: "600px",
     marginBottom: "35px",
@@ -232,7 +287,14 @@ useEffect(() => {
 >
   I build modern, responsive and user-friendly web interfaces
   with clean UI and smooth user experience.
-</p>
+</p> <div
+  style={{
+    display: "flex",
+    gap: "15px",
+    flexWrap: "wrap",
+    alignItems: "center",
+  }}
+>
 
             <button
             onMouseEnter={(e) => {
@@ -245,12 +307,18 @@ onMouseLeave={(e) => {
   e.target.style.boxShadow = "0 0 25px rgba(59,130,246,0.7)";
 }}
               style={{
-                padding: "15px 30px",
+                padding:
+                isMobile
+                  ? "12px 20px"
+                  : "15px 30px",
                 background: "#3b82f6",
                 border: "none",
                 borderRadius: "12px",
                 color: "white",
-                fontSize: "18px",
+                fontSize:
+                isMobile
+                  ? "16px"
+                  : "18px",
                 cursor: "pointer",
                 boxShadow: "0 0 25px rgba(59,130,246,0.7)",
              transition: "0.3s",
@@ -275,20 +343,27 @@ onMouseLeave={(e) => {
   style={{
     display: "inline-block",
     marginLeft: "20px",
-    padding: "15px 30px",
+    padding:
+  isMobile
+    ? "12px 20px"
+    : "15px 30px",
     background: "rgba(255,255,255,0.05)",
     backdropFilter: "blur(12px)",
     border: "1px solid rgba(255,255,255,0.08)",
     borderRadius: "12px",
     color: "white",
     textDecoration: "none",
-    fontSize: "18px",
+    fontSize:
+  isMobile
+    ? "16px"
+    : "18px",
     transition: "all 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
     transform: "translateY(0px)",
   }}
 >
   Download Resume
 </a>
+</div>
             <p
            style={{
             color: "#64748b",
@@ -313,8 +388,8 @@ onMouseLeave={(e) => {
               alt="profile"
               style={{
                width: "100%",
-                maxWidth: "380px",
-                height: "420px",
+                maxWidth: isMobile ? "280px" : "380px",
+                height: isMobile ? "320px" : "420px",
                 objectFit: "cover",
                 borderRadius: "20px",
                 objectPosition: "top",
@@ -340,7 +415,10 @@ data-aos="fade-up"
   <h2
     style={{
       textAlign: "center",
-      fontSize: "42px",
+      fontSize:
+  isMobile
+    ? "32px"
+    : "42px",
       marginBottom: "50px",
       color:"white",
     }}
@@ -410,7 +488,10 @@ id="projects"
   <h2
     style={{
       textAlign: "center",
-      fontSize: "42px",
+      fontSize:
+  isMobile
+    ? "32px"
+    : "42px",
       marginBottom: "50px",
       color: "white",
     }}
@@ -548,7 +629,10 @@ id="about"
 >
   <h2
     style={{
-      fontSize: "42px",
+      fontSize:
+  isMobile
+    ? "32px"
+    : "42px",
       marginBottom: "30px",
       color:"white",
     }}
@@ -560,7 +644,10 @@ id="about"
     style={{
       maxWidth: "800px",
       margin: "auto",
-      fontSize: "20px",
+      fontSize:
+  isMobile
+    ? "16px"
+    : "20px",
       lineHeight: "1.8",
       color: "#f6f6f6",
     }}
@@ -585,7 +672,10 @@ id="contact"
 >
   <h2
     style={{
-      fontSize: "42px",
+      fontSize:
+  isMobile
+    ? "32px"
+    : "42px",
       marginBottom: "40px",
       color:"white",
     }}
