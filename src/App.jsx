@@ -5,19 +5,22 @@ import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import resume from "./assets/Priyansh resume.pdf";
 function App() {
-          const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
- const [isMobile, setIsMobile] = useState(isMobile);
+const [isMobile, setIsMobile] = useState(
+  window.innerWidth < 768
+);
 
 useEffect(() => {
   const handleResize = () => {
-    setIsMobile(isMobile);
+    setIsMobile(window.innerWidth < 768);
   };
 
   window.addEventListener("resize", handleResize);
 
-  return () =>
+  return () => {
     window.removeEventListener("resize", handleResize);
+  };
 }, []);
   const [active, setActive] = useState("home");
 useEffect(() => {
